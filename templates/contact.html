@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Contact Support Engine{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-5 align-items-stretch">
+        <div class="col-lg-6 d-flex flex-column justify-content-center text-center text-lg-start">
+            <div class="mb-4">
+                <div class="qr-icon mb-3">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyZEjezOpkiOstl8aKxUxwNE7d3IQy-ODvfA&s" height="90" class="rounded-4 shadow-sm" alt="HrOne Branding Banner">
+                </div>
+                <h1 class="fw-bold mb-1 display-5 text-success">HrOne</h1>
+                <p class=" text-uppercase text-white tracking-wider small fw-semibold">HR Management System</p>
+            </div>
+            
+            <div class="pe-lg-4">
+                <h3 class="fw-semibold text-white mb-3">Welcome to HrOne Support</h3>
+                <p class="text-white lead fs-6">
+                    At HrOne, we are dedicated to providing you with a seamless HR and multi-user management experience. Whether you are an employee navigating your dashboard, an administrator managing system permissions, or someone looking to learn more about our enterprise features, our team is ready to assist. Please use the form below to drop us a line, share your valuable feedback, or report any technical issues, and our dedicated administrators will review your inquiry promptly.
+                </p>
+                <p class="text-white lead fs-6">
+                    If your query requires supporting documentation, data logs, or user reports, you can securely attach them directly to this form. We support a wide variety of formats (including PDFs, images, and ZIP files) up to 100MB, ensuring that your larger data payloads are preserved straight to our server storage safely. Thank you for partnering with HrOne—we look forward to connecting with you and continuously improving your workplace automation ecosystem.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 d-flex align-items-center">
+            <div class="card w-100 shadow-lg border-0 p-4 bg-success text-white rounded-4">
+                <h2 class="mb-4 text-center fw-bold">Contact Admin</h2>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show border-0 shadow-sm" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form id="contactForm" method="POST" action="/contact" enctype="multipart/form-data">
+                    {{ form.hidden_tag() if form and form.hidden_tag }} 
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Name</label>
+                        <input type="text" name="name" class="form-control form-control-lg border-0 shadow-sm" placeholder="Sam Raman" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email address</label>
+                        <input type="email" name="email" class="form-control form-control-lg border-0 shadow-sm" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Subject</label>
+                        <input type="text" name="subject" class="form-control form-control-lg border-0 shadow-sm" placeholder="What is this about?" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Message</label>
+                        <textarea name="message" class="form-control form-control-lg border-0 shadow-sm" rows="4" placeholder="Your message here..." required></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Attachment Data</label>
+                        <input type="file" name="attachment" class="form-control border-0 shadow-sm">
+                        <div class="form-text text-white-50 mt-2 small">
+                            Supports documentation payloads, structural logs, data reports (Preserved straight to backend repository).
+                        </div>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-sm-4">
+                            <button type="reset" class="btn btn-warning w-100 fw-bold py-2.5">Reset</button>
+                        </div>
+                        <div class="col-sm-8">
+                            <button type="submit" id="submitBtn" class="btn btn-light text-success w-100 fw-bold btn-lg py-2.5 shadow-sm d-flex align-items-center justify-content-center">
+                                <span id="btnText" class="me-2">Send Message</span>
+                                <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function() {
+        var btn = document.getElementById('submitBtn');
+        var text = document.getElementById('btnText');
+        var spinner = document.getElementById('btnSpinner');
+        btn.disabled = true;
+        text.innerText = "Processing Data Load...";
+        spinner.classList.remove('d-none');
+    });
+</script>
+{% endblock %}

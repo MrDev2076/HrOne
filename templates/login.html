@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HrOne | Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyZEjezOpkiOstl8aKxUxwNE7d3IQy-ODvfA&s" type="image/x-icon">
+    <style>
+        body {
+            background: linear-gradient(135deg, #4e7a44 0%, #044922 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .qr-decoration {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 8rem;
+            bottom: 20px;
+            right: 20px;
+            pointer-events: none;
+        }
+        .card {
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .dinequick-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #010519a0 0%, #04b34a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .qr-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #010519a0 0%, #06a73e 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        .qr-icon i {
+            font-size: 28px;
+            color: white;
+        }
+        .btn-dine {
+            background: linear-gradient(135deg, #05993b 0%, #03561e 100%);
+            border: none;
+            transition: transform 0.2s;
+        }
+        .btn-dine:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #05993b 0%, #022f11 100%);
+        }
+        .feature-badge {
+            font-size: 0.7rem;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 20px;
+            margin: 2px;
+            display: inline-block;
+        }
+        .alert {
+            border-radius: 12px;
+            border-left: 4px solid;
+        }
+        .alert-success {
+            border-left-color: #28a745;
+        }
+        .alert-danger {
+            border-left-color: #dc3545;
+        }
+        .input-group-text {
+            background: transparent;
+            border-right: none;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #f09c01;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100 position-relative">
+        <!-- QR Decoration -->
+        <div class="qr-decoration">
+            <i class="fas fa-qrcode"></i>
+        </div>
+        
+        <div class="card p-4 shadow-lg" style="width: 26rem;">
+            <div class="text-center">
+                <div class="qr-icon">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyZEjezOpkiOstl8aKxUxwNE7d3IQy-ODvfA&s" height="30" class="rounded-5" alt="">
+                </div>
+                <h2 class="dinequick-logo mb-2">HrOne</h2>
+                <p class="text-muted small mb-3">Human Resource Management System</p>
+                
+                <!-- Feature badges -->
+                <div class="mb-3">
+                    <span class="feature-badge"><i class="fas fa-mobile-alt me-1"></i> Autherisation</span>
+                    <span class="feature-badge"><i class="fas fa-tv me-1"></i> Digital Connect</span>
+                    <span class="feature-badge"><i class="fas fa-diagram-project me-1"></i> Workflow management</span>
+                </div>
+            </div>
+            
+            <hr class="my-2">
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} py-2 small mb-3 d-flex align-items-center">
+                            <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} me-2"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Login Form -->
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-user me-1 text-primary"></i> Username
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user text-muted"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+                    </div>
+                    <small class="text-muted">Demo: admin / staff</small>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-lock me-1 text-primary"></i> Password
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-key text-muted"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-dine w-100 text-white py-2 fw-semibold">
+                    <i class="fas fa-sign-in-alt me-2"></i> Sign In to Dashboard
+                </button>
+            </form>
+            
+            <hr class="my-3">
+            
+            <div class="text-center small text-muted">
+                <i class="fas fa-qrcode me-1"></i> connect with HR team for logins
+                <br>
+                <span class="badge bg-light text-dark mt-2">
+                    <i class="fas fa-graduation-cap me-1"></i> Fresher Bot Hackathon 2026
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

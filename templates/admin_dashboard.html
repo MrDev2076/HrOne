@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .content-wrapper { background: rgba(255, 255, 255, 0.92); min-height: 85vh; border-radius: 20px; padding: 25px; }
+    .card { border-radius: 15px; border: none; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.2s; background: white; }
+    .card:hover { transform: translateY(-3px); }
+    .card-header-custom { background: linear-gradient(135deg, #048b2cc5 0%, #037425 100%); color: white; padding: 15px 20px; border-radius: 15px 15px 0 0; font-weight: bold; }
+    .qr-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #09c628 0%, #037425 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .dinequick-logo { font-size: 1.6rem; font-weight: bold; background: linear-gradient(135deg, #06db46 0%, #037425 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .form-control-sm, .form-select-sm { border-radius: 8px; border: 1px solid #80ff99; }
+    .btn-primary { background: linear-gradient(135deg, #00ff2a 0%, #037425 100%); border: none; border-radius: 8px; }
+    .btn-danger { background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%); border: none; border-radius: 8px; }
+    .stat-card { background: linear-gradient(135deg, #fff3e0 0%, #b5ffb2 100%); border-radius: 15px; padding: 20px; text-align: center; height: 100%; box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 20px; }
+    .stat-card i { font-size: 2.2rem; color: #037425; }
+    .stat-card h2 { font-size: 2rem; font-weight: bold; color: #037425; }
+    .table thead th { background: linear-gradient(135deg, #fff3e0 0%, #b2ffcd 100%); color: #037425; font-weight: bold; border-bottom: 2px solid #078d1b; }
+    .footer-text { text-align: center; padding: 15px; color: #037425; font-size: 0.8rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper container my-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h2>{{ users|length }}</h2>
+                <p class="mb-0 text-muted small fw-semibold">Total Directory Profiles</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <i class="fas fa-user-shield"></i>
+                <h2>{{ users|selectattr('role', 'equalto', 'Admin')|list|length }}</h2>
+                <p class="mb-0 text-muted small fw-semibold">System Administrators</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <i class="fas fa-business-time"></i>
+                <h2>8</h2>
+                <p class="mb-0 text-muted small fw-semibold">Pending Departments</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <i class="fas fa-chart-pie"></i>
+                <h2>94.2%</h2>
+                <p class="mb-0 text-muted small fw-semibold">Ecosystem Performance Rate</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-user-card card shadow-sm mb-4">
+        <div class="card-header-custom">
+            <i class="fas fa-user-plus me-2"></i> Create New User Profile
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center border-end">
+                    <div class="qr-icon">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyZEjezOpkiOstl8aKxUxwNE7d3IQy-ODvfA&s" height="30" class="rounded-5" alt="HrOne System Key">
+                    </div>
+                    <h3 class="dinequick-logo mb-1">HrOne</h3>
+                    <p class="text-muted small mb-0">Workplace Management Engine</p>
+                </div>
+                <div class="col-md-9">
+                    <form action="/admin/add" method="POST" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold"><i class="fas fa-user text-warning"></i> Username</label>
+                            <input type="text" name="username" class="form-control form-control-sm" placeholder="Username" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold"><i class="fas fa-envelope text-warning"></i> Email</label>
+                            <input type="email" name="email" class="form-control form-control-sm" placeholder="Email" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold"><i class="fas fa-lock text-warning"></i> Password</label>
+                            <input type="password" name="password" class="form-control form-control-sm" placeholder="Password" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-bold"><i class="fas fa-tag text-warning"></i> Role</label>
+                            <select name="role" class="form-select form-select-sm">
+                                <option value="User">👤 User</option>
+                                <option value="Admin">👑 Admin</option>
+                                <option value="Staff">🍳 Staff</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100 btn-sm text-white fw-bold"><i class="fas fa-save"></i> Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header-custom d-flex justify-content-between align-items-center">
+            <div><i class="fas fa-database me-2"></i> System Profiles Core Directory (SQLite)</div>
+            <span class="badge bg-light text-success fw-bold">Live Data Payload</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-user"></i> Username</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-shield-alt"></i> Role</th>
+                            <th><i class="fas fa-cog"></i> Engine Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in users %}
+                        <tr>
+                            <form action="/admin/edit/{{ row['id'] }}" method="POST">
+                                <td class="fw-bold text-warning">#{{ loop.index }}</td>
+                                <td><input type="text" name="username" value="{{ row['username'] }}" class="form-control form-control-sm" required></td>
+                                <td><input type="email" name="email" value="{{ row['email'] }}" class="form-control form-control-sm" required></td>
+                                <td>
+                                    <select name="role" class="form-select form-select-sm">
+                                        <option value="User" {% if row['role'] == 'User' %}selected{% endif %}>👤 User</option>
+                                        <option value="Admin" {% if row['role'] == 'Admin' %}selected{% endif %}>👑 Admin</option>
+                                        <option value="Staff" {% if row['role'] == 'Staff' %}selected{% endif %}>🍳 Staff</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="submit" class="btn btn-primary btn-sm text-white"><i class="fas fa-save"></i> Save</button>
+                                        <a href="/admin/delete/{{ row['id'] }}" class="btn btn-danger btn-sm text-white" onclick="return confirm('Confirm profile termination? Permanent change!')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-text mt-4">
+        <i class="fas fa-qrcode me-1"></i> HrOne Automated Management Framework | <i class="fas fa-graduation-cap"></i> Fresher Bot Hackathon 2026 | <i class="fas fa-database"></i> SQLite3 Engine
+    </div>
+</div>
+{% endblock %}

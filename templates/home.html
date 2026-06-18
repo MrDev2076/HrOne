@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}HrOne Home Hub{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-center text-white py-5">
+    <div class="p-5 rounded-5 shadow-lg mx-auto" style="background: rgba(0, 0, 0, 0.75); max-width: 850px; border: 1px solid #037425;">
+        <i class="fas fa-qrcode display-1 text-success mb-3"></i>
+        <h1 class="display-4 fw-bold">Automated Workplace Ecosystem</h1>
+        <p class="lead text-light opacity-75">Welcome to HrOne Automated Management Framework built for Fresher Bot Hackathon 2026. Real-time data payloads managed seamlessly via Python SQLite engine virtualization layers.</p>
+        <hr class="my-4" style="background: linear-gradient(90deg, transparent, #00ff40, transparent); height:2px; border:none;">
+        
+        {% if not session['username'] %}
+            <button class="btn btn-lg px-5 text-white fw-bold rounded-pill shadow" style="background: linear-gradient(135deg, #06db46 0%, #037425 100%); border:none;" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-key me-2"></i>Initialize System Session</button>
+        {% else %}
+            <a href="/dashboard" class="btn btn-lg px-5 text-white fw-bold rounded-pill shadow" style="background: linear-gradient(135deg, #06db46 0%, #037425 100%); border:none;"><i class="fas fa-tachometer-alt me-2"></i>Return to Live Session Terminal</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(5px);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content style-card" style="border-radius: 20px; border: none; overflow:hidden;">
+            <div class="p-4 text-center text-white" style="background: linear-gradient(135deg, #048b2cc5 0%, #037425 100%);">
+                <i class="fas fa-user-shield fa-2x mb-2"></i>
+                <h5 class="modal-title fw-bold m-0">Secure Node Authorization</h5>
+            </div>
+            <div class="modal-body p-4 bg-light">
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Username Node Identifier</label>
+                        <input type="text" name="username" class="form-control" placeholder="Enter username..." required style="border: 1px solid #80ff99;">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-success">Crypto Key Access Sequence</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter security passphrase..." required style="border: 1px solid #80ff99;">
+                    </div>
+                    <button type="submit" class="btn text-white fw-bold w-100 py-2 rounded-3" style="background: linear-gradient(135deg, #00ff2a 0%, #037425 100%); border:none;"><i class="fas fa-unlock-alt me-2"></i>Confirm Node Access</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if show_login_modal %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    });
+</script>
+{% endif %}
+{% endblock %}

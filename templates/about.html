@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}About Ecosystem Architecture{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-center text-white py-4">
+    <div class="p-5 rounded-5 shadow-lg mx-auto" style="background: rgba(0, 0, 0, 0.75); max-width: 800px; border: 1px solid #037425;">
+        <i class="fas fa-project-diagram display-2 text-success mb-3"></i>
+        <h2 class="fw-bold">Platform System Specifications</h2>
+        <p class="text-light opacity-75">HrOne Architecture Overview & Module Configuration profiles built dynamically for corporate agile task orchestration tracking metrics.</p>
+        
+        <div class="row text-start mt-4 text-dark g-3">
+            <div class="col-md-6">
+                <div class="p-3 bg-white rounded-3 h-100 border-start border-4 border-success">
+                    <h6 class="fw-bold text-success"><i class="fas fa-database me-1"></i> Embedded SQLite Layer</h6>
+                    <p class="small text-muted mb-0">Dynamic session handling with persistent storage blocks map and load records asynchronously across individual views.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-white rounded-3 h-100 border-start border-4 border-success">
+                    <h6 class="fw-bold text-success"><i class="fas fa-route me-1"></i> Guarded Cluster Pipelines</h6>
+                    <p class="small text-muted mb-0">Role classification layers enforce route separation to verify resource execution security and state parameters.</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/" class="btn text-white fw-semibold rounded-pill px-4" style="background: linear-gradient(135deg, #06db46 0%, #037425 100%);">Return Back Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

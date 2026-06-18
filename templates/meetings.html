@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title if page_title else "Information Center" }}{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-center">
+    <div class="card p-5 shadow-sm max-width-md mx-auto border-0 bg-white rounded-4" style="max-width:750px;">
+        <i class="fas {{ page_icon if page_icon else 'fa-video' }} display-1 text-success mb-4 opacity-50"></i>
+        <h2 class="fw-bold mb-3 text-dark">{{ target_heading if target_heading else "Ecosystem Module Deployment" }}</h2>
+        <p class="text-secondary lead mx-auto" style="max-width: 600px;">
+            This functional partition of the HrOne infrastructure engine is undergoing deployment parameters. Fully interactive automation features will integrate shortly with our SQLite profile cluster.
+        </p>
+        <div class="mt-4">
+            <a href="/dashboard" class="btn btn-success rounded-pill px-4 shadow-sm fw-semibold" style="background: linear-gradient(135deg, #06db46 0%, #037425 100%); border:none;">Return to Main Terminal</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
